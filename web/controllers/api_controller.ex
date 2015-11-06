@@ -22,15 +22,35 @@ defmodule ElixirHttpbin.APIController do
   end
 
   def get(conn, _params) do
+    require Integer
+
     local_host = Plug.Conn.get_req_header(conn, "host")
     local_args = conn.query_string
-      |> String.split("&")
+      |> String.split(["&", "="])
+
+    case length(local_args) do
+      x when Integer.is_even(x) == false ->
+        #TODO: return 404
+        future_args = ["ERROR", "PARSING", "ARGS"]
+      x when x == 2 ->
+        [h,i] = local_args
+        future_args = Map.put(%{}, h, i)
+      _ ->
+        future_args = Map.new
+        future_list = Enum.chunk(local_args, 2)
+          |> Enum.map( fn([h,i]) -> Map.put(%{}, h, [i]) end)
+
+        future_args = List.foldl(future_list, future_args,
+          fn(m,acc) -> Map.merge(m, acc,
+            fn(_k, v1, v2) -> List.flatten([v2,v1]) end)
+          end)
+      end
 
     json conn, %{
       "url": "#{to_string conn.scheme}://#{local_host}#{conn.request_path}",
       "headers": headers_as_map(conn),
       "origin": ip_address_as_string(conn),
-      "args": local_args
+      "args": future_args
     }
   end
 end
