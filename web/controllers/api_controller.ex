@@ -53,4 +53,14 @@ defmodule ElixirHttpbin.APIController do
       "args": future_args
     }
   end
+
+  def xml(conn, _params) do
+    case File.read("/Users/bverdier/programming/github/elixir-httpbing/web/static/sample.xml") do
+      {:ok, file} ->
+        conn
+          |> put_resp_content_type("application/xml")
+          |> send_resp(200, file)
+      {:error, reason} -> text conn, "ERROR: #{reason}"
+    end
+  end
 end
