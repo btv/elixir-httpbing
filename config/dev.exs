@@ -14,6 +14,10 @@ config :elixir_httpbin, ElixirHttpbin.Endpoint,
   check_origin: false,
   watchers: []
 
+
+config :elixir_httpbin,
+  xml_file: "/Users/bverdier/programming/github/elixir-httpbing/web/static/sample.xml"
+
 # Watch static and templates for browser reloading.
 config :elixir_httpbin, ElixirHttpbin.Endpoint,
   live_reload: [
