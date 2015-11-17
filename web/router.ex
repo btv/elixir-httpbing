@@ -18,7 +18,6 @@ defmodule ElixirHttpbin.Router do
 
     get "/", PageController, :index
     get "/html", PageController, :html
-    get "/xml", APIController, :xml
   end
 
   # Other scopes may use custom stacks.
