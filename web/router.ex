@@ -17,7 +17,13 @@ defmodule ElixirHttpbin.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    get "/html", PageController, :html
+  end
+
+  #Routes for redirects
+  scope "/", ElixirHttpbin do
+
+    get "/xml", RedirectController, :xml
+    get "/html", RedirectController, :html
   end
 
   # Other scopes may use custom stacks.

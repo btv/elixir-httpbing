@@ -15,14 +15,11 @@ config :elixir_httpbin, ElixirHttpbin.Endpoint,
   watchers: []
 
 
-config :elixir_httpbin,
-  xml_file: "/Users/bverdier/programming/github/elixir-httpbing/web/static/sample.xml"
-
 # Watch static and templates for browser reloading.
 config :elixir_httpbin, ElixirHttpbin.Endpoint,
   live_reload: [
     patterns: [
-      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg|xml)$},
+      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg|xml|html)$},
       ~r{web/views/.*(ex)$},
       ~r{web/templates/.*(eex)$}
     ]
