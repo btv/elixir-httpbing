@@ -29,9 +29,11 @@ defmodule ElixirHttpbin.APIController do
       |> String.split(["&", "="])
 
     case length(local_args) do
+      x when x == 1 ->
+        future_args = %{}
       x when Integer.is_even(x) == false ->
         #TODO: return 404
-        future_args = ["ERROR", "PARSING", "ARGS"]
+        future_args = ["ERROR", "PARSING", "ARGS", local_args]
       x when x == 2 ->
         [h,i] = local_args
         future_args = Map.put(%{}, h, i)
@@ -52,6 +54,11 @@ defmodule ElixirHttpbin.APIController do
       "origin": ip_address_as_string(conn),
       "args": future_args
     }
+  end
+
+  def delay(conn, %{"n" => local_delay}) do
+    :timer.sleep(String.to_integer(local_delay) * 1000)
+    redirect conn, to: api_path(conn, :get)
   end
 
 end

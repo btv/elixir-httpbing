@@ -34,5 +34,6 @@ defmodule ElixirHttpbin.Router do
     get "/user-agent", APIController, :user_agent
     get "/headers", APIController, :headers
     get "/get", APIController, :get
+    get "/delay/:n", APIController, :delay
   end
 end
